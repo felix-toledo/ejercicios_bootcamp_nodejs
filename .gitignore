@@ -2,4 +2,6 @@ node_modules/*
 /back/node_modules/*
 /poo/node_modules/*
 /ts-excerises/node_modules/*
-
+/nestjs/api-tutorial/node_modules/*
+/back/package-lock.json
+/nestjs/api-tutorial/package-lock.json
