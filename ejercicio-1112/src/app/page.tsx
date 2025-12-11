@@ -18,9 +18,10 @@ const producto: ProductType = {
   },
 };
 
-function ProductCard(product: ProductType) {
+function ProductCard({ product }: { product: ProductType }) {
   return (
     <div className="p-4 ">
+      {/* Ahora puedes acceder a product.title, etc. */}
       <h1>{[product.title]}</h1>
       <Image src={product.image} width={100} height={100} alt={product.title} />
       <p>{product.description}</p>
@@ -37,7 +38,7 @@ export default function Home() {
 
   const [products, setProducts] = useState<ProductType[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [err, setError] = useState<any>(null);
+  const [err, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -48,7 +49,11 @@ export default function Home() {
         const data = await response.json();
         setProducts(data);
       } catch (err) {
-        setError(err.message);
+        if (err instanceof Error){
+          setError(err.message);
+        } else {
+          setError('Ocurrió un error desconocido.')
+        }
       } finally {
         setIsLoading(false);
       }
@@ -59,7 +64,19 @@ export default function Home() {
 
   return (
     <div className="p-4">
-      {isLoading ? <Loader /> : <ProductCard {...products[0]} />}
+      {isLoading ? (
+        <Loader />
+      ) : err ? (
+        <div className="text-red-600 font-bold">
+          Ocurrió un error al cargar los productos: {err}
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {products.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
