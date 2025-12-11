@@ -41,3 +41,9 @@ Nest js se instala globalmente. por lo que podemos hacer:
 npm i -g @nestjs/cli
 
 https://www.youtube.com/watch?v=GHTA143_b-s
+
+---
+
+## Modules
+
+Is a class.

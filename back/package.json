@@ -8,7 +8,8 @@
   "main": "index.ts",
   "scripts": {
     "start": "node --loader ts-node/esm index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start-challenge": "node --loader ts-node/esm prueba.ts"
   },
   "dependencies": {
     "@types/jsonwebtoken": "^9.0.10",

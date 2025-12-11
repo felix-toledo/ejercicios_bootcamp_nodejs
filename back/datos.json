@@ -1,0 +1,45 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "nombre": "Laptop",
+      "descripcion": "Laptop HP 15 pulgadas",
+      "precio": 850,
+      "createdAt": "2025-11-13T10:00:00.000Z",
+      "updatedAt": "2025-11-13T10:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "nombre": "Mouse",
+      "descripcion": "Mouse inalámbrico Logitech",
+      "precio": 25,
+      "createdAt": "2025-11-13T10:15:00.000Z",
+      "updatedAt": "2025-11-13T10:15:00.000Z"
+    },
+    {
+      "id": 3,
+      "nombre": "Teclado",
+      "descripcion": "Teclado mecánico RGB",
+      "precio": 120,
+      "createdAt": "2025-11-13T10:30:00.000Z",
+      "updatedAt": "2025-11-13T10:30:00.000Z"
+    },
+    {
+      "id": 4,
+      "nombre": "Monitor",
+      "descripcion": "Monitor 27 pulgadas Full HD",
+      "precio": 300,
+      "createdAt": "2025-11-13T10:45:00.000Z",
+      "updatedAt": "2025-11-13T10:45:00.000Z"
+    },
+    {
+      "id": 5,
+      "nombre": "Auriculares",
+      "descripcion": "Auriculares con cancelación de ruido",
+      "precio": 180,
+      "createdAt": "2025-11-13T11:00:00.000Z",
+      "updatedAt": "2025-11-13T11:00:00.000Z"
+    }
+  ],
+  "currentId": 6
+}
