@@ -3,7 +3,7 @@ import { ProductType } from "@/types/productos";
 import { ShoppingCart } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 
-export default function ProductCard(product: ProductType) {
+export default function ProductCard({product}: {product: ProductType}) {
   const { addItem, removeItem } = useCart();
 
   return (
