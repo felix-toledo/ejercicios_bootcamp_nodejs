@@ -1,9 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import { useCart } from "@/context/CartContext";
 import { ProductType } from "@/types/productos";
 import Image from "next/image";
-import { XCircle } from "lucide-react";
+import { XCircle, RotateCw, CheckCircle } from "lucide-react";
 
 function CartItemRow({ item }: { item: ProductType }) {
   const { removeItem } = useCart();
@@ -41,20 +42,53 @@ function CartItemRow({ item }: { item: ProductType }) {
 }
 
 export default function CartList() {
-  const { items } = useCart();
+  const { items, clearCart } = useCart();
+
+  const [purchaseStatus, setPurchaseStatus] = useState<
+    "idle" | "loading" | "success"
+  >("idle");
 
   const cartTotal = items.reduce((sum, item) => sum + item.price, 0);
 
-  if (items.length === 0) {
+  const handleFinalizePurchase = async () => {
+    if (purchaseStatus !== "idle") return;
+
+    setPurchaseStatus("loading");
+
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      clearCart();
+      setPurchaseStatus("success");
+
+      setTimeout(() => {
+        setPurchaseStatus("idle");
+      }, 5000);
+    } catch (error) {
+      console.error("Falló la compra", error);
+      setPurchaseStatus("idle");
+    }
+  };
+
+  if (items.length === 0 && purchaseStatus !== "success") {
     return (
-      <div className="p-6 bg-gray-900 rounded-lg shadow-xl text-center">
-        <p className="text-lg text-gray-400">Tu carrito esta vacío 😔</p>
+      <div className="text-center">
+        <p className="text-lg text-gray-500">Tu carrito esta vacío 😔</p>
+      </div>
+    );
+  }
+
+  if (purchaseStatus === "success") {
+    return (
+      <div className="text-center flex flex-col items-center p-6">
+        <CheckCircle className="w-12 h-12 text-green-500 mb-4" />
+        <p className="text-xl font-bold text-green-600">¡Compra realizada!</p>
+        <p className="text-sm text-green-600 mt-2">Gracias por tu compra</p>
       </div>
     );
   }
 
   return (
-    <div className="p-6 bg-gray-900 rounded-lg shadow-2xl w-full max-w-xl mx-auto border border-gray-700">
+    <div className="w-full">
       <h2 className="text-2xl font-bold mb-4 border-b pb-2 text-white">
         Tu carrito de Compras ({items.length} productos)
       </h2>
@@ -71,8 +105,23 @@ export default function CartList() {
           ${cartTotal.toFixed(2)}
         </span>
       </div>
-      <button className="mt-6 w-full p-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition">
-        Finalizar Compra
+      <button
+        onClick={handleFinalizePurchase}
+        disabled={purchaseStatus === "loading"}
+        className={`mt-6 w-full p-3 font-bold rounded-lg transition
+        ${
+          purchaseStatus === "loading"
+            ? "bg-blue-400 cursor-not-allowed flex items-center justify-center"
+            : "bg-green-500 hover:bg-green-600"
+        } text-white`}
+      >
+        {purchaseStatus === "loading" ? (
+          <>
+            <RotateCw className="w-5 h-5 mr-2 animate-spin" />
+          </>
+        ) : (
+          "Finalizar Compra"
+        )}
       </button>
     </div>
   );

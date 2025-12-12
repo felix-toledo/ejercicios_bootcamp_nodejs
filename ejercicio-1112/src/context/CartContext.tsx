@@ -8,6 +8,7 @@ interface CartContextType {
   items: ProductType[];
   addItem: (item: ProductType) => void;
   removeItem: (id: number) => void;
+  clearCart: () => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -25,8 +26,12 @@ export function CartProvider({ children }: { children: ReactNode }) {
     setItems((prevItems) => prevItems.filter((item) => item.id !== id));
   };
 
+  const clearCart = () => {
+    setItems([]);
+  };
+
   return (
-    <CartContext.Provider value={{ items, addItem, removeItem }}>
+    <CartContext.Provider value={{ items, addItem, removeItem, clearCart }}>
       {children}
     </CartContext.Provider>
   );
@@ -34,7 +39,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
 export const useCart = () => {
   const context = useContext(CartContext);
-  // Control de errores clave: si se usa fuera del Provider
+
   if (!context) {
     throw new Error("useCart debe usarse dentro de un CartProvider");
   }
