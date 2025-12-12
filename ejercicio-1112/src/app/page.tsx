@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { ProductType } from "@/types/productos";
+import ProductCard from "@/components/ProductComponent";
 
 const producto: ProductType = {
   id: 1,
@@ -18,16 +19,7 @@ const producto: ProductType = {
   },
 };
 
-function ProductCard({ product }: { product: ProductType }) {
-  return (
-    <div className="p-4 ">
-      {/* Ahora puedes acceder a product.title, etc. */}
-      <h1>{[product.title]}</h1>
-      <Image src={product.image} width={100} height={100} alt={product.title} />
-      <p>{product.description}</p>
-    </div>
-  );
-}
+
 
 function Loader() {
   return <div>Cargando...</div>;
