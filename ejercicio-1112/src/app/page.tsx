@@ -1,18 +1,21 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { ProductType } from "@/types/productos";
 import ProductCard from "@/components/ProductComponent";
 
 function Loader() {
-  return <div>Cargando...</div>;
+  return (
+    <div className="w-full h-screen flex justify-center items-center">
+      <div className="w-20 h-20 border-4 border-t-blue-400 rounded-full animate-spin"></div>
+    </div>
+  );
 }
 
 export default function Home() {
   const [products, setProducts] = useState<ProductType[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  // const [err, setError] = useState<any>(null);
+  const [err, setError] = useState<any>(null);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -22,10 +25,9 @@ export default function Home() {
         if (!response.ok) throw new Error("Error al cargar productos");
         const data = await response.json();
         setProducts(data);
-        console.log("data", data);
       } catch (err) {
         console.log(err);
-        // setError(err);
+        setError((err as Error).message);
       } finally {
         setIsLoading(false);
       }
@@ -34,9 +36,15 @@ export default function Home() {
     fetchProducts();
   }, []);
 
+  if (isLoading) {
+    return <Loader />;
+  }
+
   return (
-    <div className="p-4">
-      {isLoading ? <Loader /> : <ProductCard {...products[0]} />}
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 pt-20 ">
+      {products.map((product) => (
+        <ProductCard key={product.id} product={product} />
+      ))}
     </div>
   );
 }
